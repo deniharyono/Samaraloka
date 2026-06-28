@@ -2,94 +2,99 @@
 <html lang="id">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Serat Ulem Pernikahan</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Serat Ulem Pernikahan Premium</title>
     
-    <!-- Google Fonts Integration for Javanese Theme -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600&family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
-    
-    <!-- AOS Library CSS for Smooth Scroll Animation -->
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css" />
-    
-    <!-- Link to Stylesheet -->
     <link rel="stylesheet" href="style.css">
 </head>
 <body class="body-no-scroll">
 
-    <!-- Audio Latar Belakang (Menggunakan Musik Gamelan/Ethnic yang Valid & Aktif) -->
-    <audio id="audio-latar" <audio id="audio-latar" src="gamelan.mp3" loop></audio>
+    <audio id="audio-latar" src="gamelan.mp3" loop></audio>
 
-    <!-- SEKAT SAMPUL / OVERLAY PEMBUKA (THEMA JAWA) -->
     <div id="sekat-sampul" class="sekat-sampul">
-        <div class="konten-sampul">
-            <!-- Ornamen Gunungan Wayang -->
-            <div class="ornamen-gunungan" data-aos="fade-down">
-                <img src="gunungan.png" alt="Gunungan Wayang" class="gambar-wayang">
+        <div class="konten-sampul" data-aos="fade-up">
+            <div class="bingkai-wayang">
+                <img src="gunungan.png" alt="Gunungan Wayang" class="elemen-gunungan">
             </div>
-            
-            <h1 class="sub-judul-jawa">Serat Ulem Pernikahan</h1>
-            <h2 class="nama-pengantin-jawa">Arif & Kayla</h2>
-            
-            <p class="tamu-dumateng">Katur Dumateng Bapak/Ibu/Saudara/i:</p>
-            <h3 id="nama-penerima">Tamu Undangan</h3>
-            
-            <button class="tombol-buka">Buka Undangan (Mlebet)</button>
+            <h1 class="serat-ulem">Serat Ulem</h1>
+            <h2 class="nama-pengantin">Arif & Kayla</h2>
+            <div class="tamu-area">
+                <p class="katur">Katur Dumateng Bagyaning Mulya:</p>
+                <h3 id="nama-penerima">Tamu Undangan</h3>
+            </div>
+            <button class="tombol-mlebet" onclick="bukaUndangan()">Mlebet / Buka Undangan</button>
         </div>
     </div>
 
-    <!-- KONTEN UTAMA UNDANGAN -->
-    <main class="konten-utama">
-        
-        <!-- Section Hero / Pembuka -->
-        <section class="hero" data-aos="fade-up">
-            <h1 class="nama-pengantin-jawa" style="color: var(--warna-utama); text-shadow: none;">Arif & Kayla</h1>
-            <p style="letter-spacing: 3px; text-transform: uppercase;">Sabtu, 12 Desember 2026</p>
-        </section>
+    <div class="phone-wrapper" id="top">
+        <main class="halaman-utama">
+            
+            <header class="hero-section" data-aos="fade-up">
+                <span class="aksara-hiasan">❖ Pawiwahan Agung ❖</span>
+                
+                <div class="avatar-frame">
+                    <img src="foto-mempelai.jpg" alt="Mempelai Wanita" class="avatar-img">
+                </div>
+                
+                <h2 class="gelar-pengantin">DEVIA</h2>
+                <p class="nama-lengkap-jawa">Fransiska Devia Tiara Amelia, S.K.M.</p>
+                
+                <div class="orang-tua-box">
+                    <p class="putri-dari">Putri dari</p>
+                    <p class="nama-ortu">Bapak Adrianus Wisnu Sandjaya, S.A.P.</p>
+                    <p class="nama-ortu">dan Ibu Yuliana Haryanti, S.A.B.</p>
+                </div>
+            </header>
 
-        <!-- Section Hitung Mundur Waktu (Countdown) -->
-        <section class="hitung-mundur" data-aos="zoom-in" data-aos-delay="200">
-            <h3>Menuju Hari Bahagia</h3>
-            <div id="counter-wedding" class="timer-wrapper">
-                <div class="time-box"><span class="hari">00</span><p>Hari</p></div>
-                <div class="time-box"><span class="jam">00</span><p>Jam</p></div>
-                <div class="time-box"><span class="menit">00</span><p>Menit</p></div>
-                <div class="time-box"><span class="detik">00</span><p>Detik</p></div>
-            </div>
-        </section>
+            <section id="tanggal" class="countdown-section" data-aos="zoom-in">
+                <h3>Masa Swasana Mundur</h3>
+                <div id="timer-jawa" class="timer-jawa">
+                    <div class="waktu-kotak"><span class="hari">00</span><p>Hari</p></div>
+                    <div class="waktu-kotak"><span class="jam">00</span><p>Jam</p></div>
+                    <div class="waktu-kotak"><span class="menit">00</span><p>Menit</p></div>
+                    <div class="waktu-kotak"><span class="detik">00</span><p>Detik</p></div>
+                </div>
+                <div style="text-align:center; margin-top:25px;">
+                    <a href="#" id="add-to-calendar" class="tombol-mlebet" style="font-size:0.8rem; padding:10px 20px; text-decoration:none;">+ Pasang di Kalender</a>
+                </div>
+            </section>
 
-        <!-- Section Formulir RSVP Konfirmasi Kehadiran -->
-        <section class="rsvp-section" data-aos="fade-up">
-            <h3>Konfirmasi Kehadiran (RSVP)</h3>
-            <form id="form-rsvp">
-                <input type="text" id="rsvp-nama" name="nama_tamu" placeholder="Nama Tamu" readonly required>
-                
-                <select name="kehadiran" required>
-                    <option value="">-- Pilih Kehadiran --</option>
-                    <option value="Hadir">Hadir (Mlebet)</option>
-                    <option value="Absen">Absen / Tidak Hadir</option>
-                    <option value="Ragu">Ragu-ragu</option>
-                </select>
-                
-                <input type="number" name="porsi_tambahan" min="0" max="4" placeholder="Jumlah Porsi Tambahan (0-4)">
-                
-                <textarea name="alergi" placeholder="Catatan Alergi / Pesan Doa / Berkah Pangestu"></textarea>
-                
-                <!-- Token Pengaman Internal Database -->
-                <input type="hidden" name="kode_akses" value="VERIFIED_USER">
-                
-                <button type="submit">Kirim Konfirmasi</button>
-            </form>
-            <div id="status-kirim"></div>
-        </section>
-        
-    </main>
+            <section id="ucapan" class="rsvp-section" data-aos="fade-up">
+                <h3>Konfirmasi Rawuh (RSVP)</h3>
+                <form id="form-rsvp-jawa">
+                    <input type="text" id="rsvp-nama" name="nama_tamu" placeholder="Asma Tamu" readonly required>
+                    
+                    <select id="form-konfirmasi" name="kehadiran" required>
+                        <option value="">-- Palilah Rawuh --</option>
+                        <option value="Hadir">Hadir (Saged Rawuh)</option>
+                        <option value="Absen">Absen (Nyuwun Pangapunten)</option>
+                    </select>
+                    
+                    <div id="group-jumlah-hadir" class="conditional-field">
+                        <input type="number" name="porsi_tambahan" min="1" max="4" placeholder="Cacahing Porsi Tamahan (1-4)">
+                    </div>
+                    
+                    <textarea name="alergi" placeholder="Atur Doa Gati / Berkah Pangestu"></textarea>
+                    <input type="hidden" name="kode_akses" value="VERIFIED_USER">
+                    <button type="submit">Kirim Serat Konfirmasi</button>
+                </form>
+                <div id="status-kirim"></div>
+            </section>
+        </main>
 
-    <!-- AOS Library JS -->
+        <nav class="floating-nav">
+            <a href="#top" class="nav-item">🏠<small>Mula</small></a>
+            <a href="#top" class="nav-item">👤<small>Pengantin</small></a>
+            <a href="#tanggal" class="nav-item">📅<small>Dinten</small></a>
+            <a href="#ucapan" class="nav-item">✉️<small>RSVP</small></a>
+        </nav>
+    </div>
+
     <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
-    
-    <!-- Link to JavaScript Core Integrasi -->
     <script src="script.js"></script>
 </body>
 </html>
