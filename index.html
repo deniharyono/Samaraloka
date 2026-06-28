@@ -8,12 +8,11 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+    
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css" />
     <link rel="stylesheet" href="style.css">
 </head>
-<body class="body-no-scroll">
-
-    <audio id="audio-latar" src="gamelan.mp3" loop></audio>
+<body class="body-no-scroll"> <audio id="audio-latar" src="gamelan.mp3" loop></audio>
 
     <div id="sekat-sampul" class="sekat-sampul">
         <div class="konten-sampul" data-aos="fade-up">
@@ -75,11 +74,13 @@
                     </select>
                     
                     <div id="group-jumlah-hadir" class="conditional-field">
-                        <input type="number" name="porsi_tambahan" min="1" max="4" placeholder="Cacahing Porsi Tamahan (1-4)">
+                        <input type="number" id="form-field-jumlah-hadir" name="porsi_tambahan" min="1" max="4" placeholder="Cacahing Porsi Tambahan (1-4)">
                     </div>
                     
                     <textarea name="alergi" placeholder="Atur Doa Gati / Berkah Pangestu"></textarea>
+                    
                     <input type="hidden" name="kode_akses" value="VERIFIED_USER">
+                    
                     <button type="submit">Kirim Serat Konfirmasi</button>
                 </form>
                 <div id="status-kirim"></div>
