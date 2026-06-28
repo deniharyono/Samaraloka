@@ -1,150 +1,137 @@
-// 1. Inisialisasi AOS (Animate On Scroll)
-AOS.init({
-    duration: 1200,
-    easing: 'ease-in-out-sine',
-    once: true,
-    offset: 150
-});
+// 1. Bootstrapping Animasi AOS [cite: 70]
+AOS.init({ duration: 1200, easing: 'ease-in-out-sine', once: true });
 
-// 2. Pembacaan Logika Nama Tamu Dinamis via Query Parameter (?to=Nama+Tamu)
-const urlParams = new URLSearchParams(window.location.search);
-const namaTamu = urlParams.get('to');
-const elemenNama = document.getElementById('nama-penerima');
-const inputFormNama = document.getElementById('rsvp-nama');
+// 2. Pemrosesan Parameter URL (Nama Tamu Dinamis) [cite: 39]
+const parameters = new URLSearchParams(window.location.search);
+const namaPenerima = parameters.get('to');
+const targetTeksNama = document.getElementById('nama-penerima');
+const targetInputForm = document.getElementById('rsvp-nama');
 
-if (namaTamu) {
-    const namaTerdekode = decodeURIComponent(namaTamu.replace(/\+/g, ' '));
-    elemenNama.innerText = namaTerdekode;
-    inputFormNama.value = namaTerdekode;
+if (namaPenerima) {
+    const hasilDekode = decodeURIComponent(namaPenerima.replace(/\+/g, ' ')); // Proteksi sanitasi karakter [cite: 53]
+    targetTeksNama.innerText = hasilDekode;
+    targetInputForm.value = hasilDekode;
 } else {
-    elemenNama.innerText = "Tamu Undangan";
-    inputFormNama.value = "Tamu Undangan";
-    inputFormNama.removeAttribute('readonly'); // Izinkan isi manual jika parameter kosong
+    targetTeksNama.innerText = "Tamu Undangan";
+    targetInputForm.value = "Tamu Undangan";
+    targetInputForm.removeAttribute('readonly');
 }
 
-// 3. Penanganan Tombol Buka Undangan & Mitigasi Autoplay Musik
-const tombolBuka = document.querySelector('.tombol-buka');
-const sekatSampul = document.getElementById('sekat-sampul');
-const audioLatar = document.getElementById('audio-latar');
+// 3. Eksekusi Pembukaan Sampul & Kebijakan Bypass Audio Peramban [cite: 92, 94]
+function bukaUndangan() {
+    const audio = document.getElementById('audio-latar');
+    const sekat = document.getElementById('sekat-sampul');
+    
+    // Penanganan pemutaran audio berbasis Promise gestur [cite: 94]
+    audio.play().then(() => {
+        console.log("Web Audio API context resumed successfully.");
+    }).catch(galat => {
+        console.log("Autoplay policy restriction triggered:", galat);
+    });
 
-tombolBuka.addEventListener('click', function() {
-    // Jalankan Audio dengan pembungkusan Promise pengaman
-    const playPromise = audioLatar.play();
-    if (playPromise !== undefined) {
-        playPromise.then(() => {
-            console.log("Audio berhasil dijalankan dengan persetujuan gestur.");
-        }).catch(error => {
-            console.log("Pemutaran audio diblokir oleh sistem:", error);
-        });
+    sekat.classList.add('hancur-ke-atas');
+    document.body.classList.remove('body-no-scroll'); // Membuka sekat layar utama [cite: 116]
+
+    // Pemicu Auto-Scroll Halus jika terdapat hash '#ucapan' dari platform tautan
+    if (window.location.hash === '#ucapan') {
+        setTimeout(() => {
+            const elemenUcapan = document.getElementById('ucapan');
+            if (elemenUcapan) {
+                elemenUcapan.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
+        }, 1200); 
     }
+}
 
-    // Geser sampul ke atas dan buka kunci scroll
-    sekatSampul.classList.add('buka-halaman');
-    document.body.classList.remove('body-no-scroll');
-});
-
-// 4. Kalkulasi Sistem Penghitung Waktu Mundur Akurat (Target: 12 Des 2026)
-function inisialisasiCountdown(idElemen, waktuAcara) {
-    const targetTime = new Date(waktuAcara).getTime();
-    const elemenMundur = document.getElementById(idElemen);
-
+// 4. Perhitungan Matematika Presisi Countdown Timer (UNIX Timestamp Modulo) [cite: 141, 145]
+function jalankanMundur(targetWaktu) {
+    const target = new Date(targetWaktu).getTime();
+    const elemenMundur = document.getElementById('timer-jawa');
+    
     const interval = setInterval(() => {
         const sekarang = new Date().getTime();
-        const dt = targetTime - sekarang;
+        const selisih = target - sekarang;
 
-        if (dt < 0) {
+        if (selisih < 0) {
             clearInterval(interval);
-            elemenMundur.innerHTML = "<div class='acara-dimulai'>Acara Pernikahan Sedang Berlangsung!</div>";
+            elemenMundur.innerHTML = "<div style='color:var(--emas-bronze);font-weight:bold;'>Acara Pernikahan Sedang Berlangsung!</div>"; // [cite: 167]
             return;
         }
 
-        // Operasi Matematika Pembagian Bilangan Bulat & Modulo
-        const d = Math.floor(dt / (1000 * 60 * 60 * 24));
-        const h = Math.floor((dt / (1000 * 60 * 60)) % 24);
-        const m = Math.floor((dt / (1000 * 60)) % 60);
-        const s = Math.floor((dt / 1000) % 60);
+        // Operasi pembagian bilangan bulat (floor) dan modulo matematika [cite: 145]
+        const d = Math.floor(selisih / (1000 * 60 * 60 * 24)); // [cite: 146]
+        const h = Math.floor((selisih / (1000 * 60 * 60)) % 24); // [cite: 147]
+        const m = Math.floor((selisih / (1000 * 60)) % 60); // [cite: 148]
+        const s = Math.floor((selisih / 1000) % 60); // [cite: 149]
 
-        // Render ke HTML dengan format 2 digit
         elemenMundur.querySelector('.hari').innerText = String(d).padStart(2, '0');
         elemenMundur.querySelector('.jam').innerText = String(h).padStart(2, '0');
         elemenMundur.querySelector('.menit').innerText = String(m).padStart(2, '0');
         elemenMundur.querySelector('.detik').innerText = String(s).padStart(2, '0');
     }, 1000);
 }
+jalankanMundur('2026-12-12T09:00:00+07:00'); // Target eksekusi hitung mundur resmi [cite: 184]
 
-// Eksekusi Countdown menuju tanggal target
-inisialisasiCountdown('counter-wedding', '2026-12-12T09:00:00+07:00');
+// 5. Logika Kondisional Input Jumlah Hadir (Sesuai Hasil Analisa Berkas) [cite: 912]
+const selectKonfirmasi = document.getElementById('form-konfirmasi');
+const groupJumlahHadir = document.getElementById('group-jumlah-hadir');
+const inputJumlahHadir = document.getElementById('form-field-jumlah-hadir');
 
-// 5. Integrasi Formulir RSVP Frontend ke Web App API Google Sheets
-const formRsvp = document.getElementById('form-rsvp');
+selectKonfirmasi.addEventListener('change', function() {
+    if (this.value === 'Hadir') {
+        groupJumlahHadir.classList.add('is-visible');
+        inputJumlahHadir.disabled = false; // [cite: 931]
+        inputJumlahHadir.required = true; // [cite: 932]
+    } else {
+        groupJumlahHadir.classList.remove('is-visible');
+        inputJumlahHadir.disabled = true; // [cite: 939]
+        inputJumlahHadir.required = false; // [cite: 940]
+        inputJumlahHadir.value = ''; // Mengosongkan kembali nilai [cite: 940]
+    }
+});
+
+// 6. Integrasi Pembuatan Tombol Add To Calendar Secara Otomatis
+(function() {
+    const btnCalendar = document.getElementById('add-to-calendar');
+    if (!btnCalendar) return;
+
+    const titleAcara = encodeURIComponent("Pawiwahan Agung Arif & Kayla");
+    const tanggalMulai = "20261212T090000Z"; 
+    const tanggalSelesai = "20261212T130000Z"; 
+
+    btnCalendar.href = `https://www.google.com/calendar/render?action=TEMPLATE&text=${titleAcara}&dates=${tanggalMulai}/${tanggalSelesai}`;
+    btnCalendar.target = '_blank';
+})();
+
+// 7. AJAX Fetch Pengiriman Form RSVP ke Backend Google Sheets Nirbiaya [cite: 187, 260]
+const formRsvp = document.getElementById('form-rsvp-jawa');
 const statusKirim = document.getElementById('status-kirim');
-
-// GANTI teks di bawah ini dengan Web App URL yang Anda salin dari Langkah 3!
-const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzjwxy-5Jh_Zt-0zCoQQ2c2g3ONyjIFflEVuxCAclDZuiN1qxp0-g5x3p-6MaSwTT-G/exec';
+const SCRIPT_URL = 'GANTI_DENGAN_URL_WEB_APP_APPS_SCRIPT_ANDA'; // ← Tempel URL Web App dari Google Sheets Anda di sini!
 
 formRsvp.addEventListener('submit', function(e) {
-    e.preventDefault(); // Mencegah muat ulang halaman saat tombol submit ditekan
-    
+    e.preventDefault();
     statusKirim.innerText = "Sedang mengirim konfirmasi...";
-    statusKirim.style.color = "#8a704c";
+    statusKirim.style.color = "var(--emas-bronze)";
 
-    // Mengambil seluruh input data dari formulir elemen secara otomatis
-    const formData = new FormData(formRsvp);
-    
-    // Mengirimkan data menggunakan metode POST asynchronous (AJAX Fetch)
     fetch(SCRIPT_URL, {
         method: 'POST',
-        body: new URLSearchParams(formData)
+        body: new URLSearchParams(new FormData(formRsvp))
     })
-    .then(response => response.json())
+    .then(res => res.json())
     .then(data => {
-        if (data.result === 'success') {
-            statusKirim.innerText = "Terima kasih! Konfirmasi Anda telah berhasil disimpan.";
+        if(data.result === 'success') {
+            statusKirim.innerText = "Matur Nuwun, konfirmasi RSVP kasimpen.";
             statusKirim.style.color = "green";
-            formRsvp.reset(); // Mengosongkan kembali form isi
+            formRsvp.reset();
+            groupJumlahHadir.classList.remove('is-visible');
         } else {
             statusKirim.innerText = "Gagal: " + data.message;
             statusKirim.style.color = "red";
         }
     })
     .catch(error => {
-        console.error('Error saat mengirim data rsvp:', error);
-        statusKirim.innerText = "Terjadi gangguan jaringan. Silakan coba lagi.";
+        console.error('Error:', error);
+        statusKirim.innerText = "Terjadi gangguan jaringan database.";
         statusKirim.style.color = "red";
     });
 });
-
-// =========================================================================
-// IMPLEMENTASI HASIL ANALISA IVY.INVITEABLE.ID
-// =========================================================================
-
-// 1. Logika Kondisional Form RSVP (Jumlah Hadir Muncul Hanya Jika Memilih 'Hadir')
-const selectKonfirmasi = document.getElementById('form-konfirmasi');
-const groupJumlahHadir = document.getElementById('group-jumlah-hadir');
-const inputJumlahHadir = groupJumlahHadir.querySelector('input');
-
-selectKonfirmasi.addEventListener('change', function() {
-    if (this.value === 'Hadir') {
-        groupJumlahHadir.classList.add('is-visible');
-        inputJumlahHadir.required = true;
-        inputJumlahHadir.disabled = false;
-    } else {
-        groupJumlahHadir.classList.remove('is-visible');
-        inputJumlahHadir.required = false;
-        inputJumlahHadir.disabled = true;
-        inputJumlahHadir.value = ''; // Reset nilai
-    }
-});
-
-// 2. Otomatisasi Fitur Add To Calendar Instan via Google Calendar Link
-(function() {
-    const btnCalendar = document.getElementById('add-to-calendar');
-    if (!btnCalendar) return;
-
-    const titleAcara = encodeURIComponent("Pawiwahan Agung Arif & Kayla");
-    const tanggalMulai = "20261212"; // Format: YYYYMMDD
-    const tanggalSelesai = "20261213"; 
-
-    btnCalendar.href = `https://www.google.com/calendar/render?action=TEMPLATE&text=${titleAcara}&dates=${tanggalMulai}/${tanggalSelesai}`;
-    btnCalendar.target = '_blank';
-})();
