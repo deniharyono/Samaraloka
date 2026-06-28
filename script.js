@@ -113,3 +113,38 @@ formRsvp.addEventListener('submit', function(e) {
         statusKirim.style.color = "red";
     });
 });
+
+// =========================================================================
+// IMPLEMENTASI HASIL ANALISA IVY.INVITEABLE.ID
+// =========================================================================
+
+// 1. Logika Kondisional Form RSVP (Jumlah Hadir Muncul Hanya Jika Memilih 'Hadir')
+const selectKonfirmasi = document.getElementById('form-konfirmasi');
+const groupJumlahHadir = document.getElementById('group-jumlah-hadir');
+const inputJumlahHadir = groupJumlahHadir.querySelector('input');
+
+selectKonfirmasi.addEventListener('change', function() {
+    if (this.value === 'Hadir') {
+        groupJumlahHadir.classList.add('is-visible');
+        inputJumlahHadir.required = true;
+        inputJumlahHadir.disabled = false;
+    } else {
+        groupJumlahHadir.classList.remove('is-visible');
+        inputJumlahHadir.required = false;
+        inputJumlahHadir.disabled = true;
+        inputJumlahHadir.value = ''; // Reset nilai
+    }
+});
+
+// 2. Otomatisasi Fitur Add To Calendar Instan via Google Calendar Link
+(function() {
+    const btnCalendar = document.getElementById('add-to-calendar');
+    if (!btnCalendar) return;
+
+    const titleAcara = encodeURIComponent("Pawiwahan Agung Arif & Kayla");
+    const tanggalMulai = "20261212"; // Format: YYYYMMDD
+    const tanggalSelesai = "20261213"; 
+
+    btnCalendar.href = `https://www.google.com/calendar/render?action=TEMPLATE&text=${titleAcara}&dates=${tanggalMulai}/${tanggalSelesai}`;
+    btnCalendar.target = '_blank';
+})();
