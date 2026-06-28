@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Undangan Pernikahan Digital</title>
+	<!-- Google Fonts Integration -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600&family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Montserrat:wght@300;400&display=swap" rel="stylesheet">
+    <!-- AOS Library CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css" />
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="body-no-scroll"> <!-- Mengunci scroll saat awal dibuka -->
+
+    <!-- Audio Latar Belakang -->
+    <audio id="audio-latar" src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" loop></audio>
+
+    <!-- Sekat Sampul / Overlay Pembuka -->
+    <div id="sekat-sampul" class="sekat-sampul">
+        <div class="konten-sampul">
+            <h1>The Wedding of</h1>
+            <h2>Arif & Kayla</h2>
+            <p>Kepada Yth. Bapak/Ibu/Saudara/i:</p>
+            <h3 id="nama-penerima">Tamu Undangan</h3>
+            <button class="tombol-buka">Buka Undangan</button>
+        </div>
+    </div>
+
+    <!-- Konten Utama Undangan -->
+    <main class="konten-utama">
+        <!-- Section Hero -->
+        <section class="hero" data-aos="fade-up">
+            <h1>Arif & Kayla</h1>
+            <p>12 Desember 2026</p>
+        </section>
+
+        <!-- Section Countdown -->
+        <section class="hitung-mundur" data-aos="zoom-in" data-aos-delay="200">
+            <h3>Menuju Hari Bahagia</h3>
+            <div id="counter-wedding" class="timer-wrapper">
+                <div class="time-box"><span class="hari">00</span><p>Hari</p></div>
+                <div class="time-box"><span class="jam">00</span><p>Jam</p></div>
+                <div class="time-box"><span class="menit">00</span><p>Menit</p></div>
+                <div class="time-box"><span class="detik">00</span><p>Detik</p></div>
+            </div>
+        </section>
+
+        <!-- Section RSVP Form -->
+        <section class="rsvp-section" data-aos="fade-up">
+            <h3>Konfirmasi Kehadiran (RSVP)</h3>
+            <form id="form-rsvp">
+                <input type="text" id="rsvp-nama" name="nama_tamu" placeholder="Nama Anda" readonly required>
+                <select name="kehadiran" required>
+                    <option value="">-- Pilih Kehadiran --</option>
+                    <option value="Hadir">Hadir</option>
+                    <option value="Absen">Absen / Tidak Hadir</option>
+                    <option value="Ragu">Ragu-ragu</option>
+                </select>
+                <input type="number" name="porsi_tambahan" min="0" max="4" placeholder="Jumlah Porsi Tambahan (0-4)">
+                <textarea name="alergi" placeholder="Catatan Alergi / Pesan Doa"></textarea>
+                <!-- Kode Akses Pencegah Spam -->
+                <input type="hidden" name="kode_akses" value="VERIFIED_USER">
+                <button type="submit">Kirim Konfirmasi</button>
+            </form>
+            <div id="status-kirim"></div>
+        </section>
+    </main>
+
+    <!-- AOS Library JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
